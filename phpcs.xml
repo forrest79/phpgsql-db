@@ -25,6 +25,7 @@
 
 	<rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference.ClassNameReferencedViaFunctionCall">
 		<exclude-pattern>src/Fluent/Exceptions/ComplexException.php</exclude-pattern>
+		<exclude-pattern>tests/Integration/DocsTest.php</exclude-pattern>
 	</rule>
 
 	<rule ref="SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable">
@@ -67,6 +68,7 @@
 	<!-- PHP 7.4 -->
 	<rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint">
 		<exclude-pattern>src/*</exclude-pattern>
+		<exclude-pattern>tests/*</exclude-pattern>
 	</rule>
 
 	<!-- PHP 7.4 -->
@@ -84,6 +86,7 @@
 	<rule ref="SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable">
 		<exclude-pattern>src/Db/Row.php</exclude-pattern>
 		<exclude-pattern>benchmarks/BasicPhpBenchmark.php</exclude-pattern>
+		<exclude-pattern>tests/Integration/DocsTest.php</exclude-pattern>
 	</rule>
 
 	<rule ref="SlevomatCodingStandard.Whitespaces.DuplicateSpaces.DuplicateSpaces">
