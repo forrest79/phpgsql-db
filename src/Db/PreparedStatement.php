@@ -2,31 +2,8 @@
 
 namespace Forrest79\PhPgSql\Db;
 
-class PreparedStatement
+class PreparedStatement extends PreparedStatementHelper
 {
-	/** @var int */
-	private static $id = 1;
-
-	/** @var Connection */
-	private $connection;
-
-	/** @var Events */
-	private $events;
-
-	/** @var string */
-	private $query;
-
-	/** @var string|NULL */
-	private $statementName = NULL;
-
-
-	public function __construct(Connection $connection, Events $events, string $query)
-	{
-		$this->connection = $connection;
-		$this->events = $events;
-		$this->query = $query;
-	}
-
 
 	/**
 	 * @param mixed ...$params
@@ -80,45 +57,6 @@ class PreparedStatement
 		}
 
 		return $this->statementName;
-	}
-
-
-	public static function getNextStatementName(): string
-	{
-		return 'phpgsql' . self::$id++;
-	}
-
-
-	public static function prepareQuery(string $query): string
-	{
-		$paramIndex = 0;
-
-		return (string) \preg_replace_callback(
-			'/([\\\\]?)\?/',
-			static function ($matches) use (&$paramIndex): string {
-				if ($matches[1] === '\\') {
-					return '?';
-				}
-
-				return '$' . ++$paramIndex;
-			},
-			$query
-		);
-	}
-
-
-	/**
-	 * @param array<mixed> $params
-	 * @return array<mixed>
-	 */
-	public static function prepareParams(array $params): array
-	{
-		return \array_map(static function ($value) {
-			if (\is_bool($value)) {
-				return $value ? 'TRUE' : 'FALSE';
-			}
-			return $value;
-		}, $params);
 	}
 
 }

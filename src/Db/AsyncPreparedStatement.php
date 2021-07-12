@@ -2,30 +2,16 @@
 
 namespace Forrest79\PhPgSql\Db;
 
-class AsyncPreparedStatement
+class AsyncPreparedStatement extends PreparedStatementHelper
 {
-	/** @var Connection */
-	private $connection;
-
 	/** @var AsyncHelper */
 	private $asyncHelper;
-
-	/** @var Events */
-	private $events;
-
-	/** @var string */
-	private $query;
-
-	/** @var string|NULL */
-	private $statementName = NULL;
 
 
 	public function __construct(Connection $connection, AsyncHelper $asyncHelper, Events $events, string $query)
 	{
-		$this->connection = $connection;
+		parent::__construct($connection, $events, $query);
 		$this->asyncHelper = $asyncHelper;
-		$this->events = $events;
-		$this->query = $query;
 	}
 
 
@@ -45,7 +31,7 @@ class AsyncPreparedStatement
 	{
 		$statementName = $this->prepareStatement();
 
-		$params = PreparedStatement::prepareParams($params);
+		$params = self::prepareParams($params);
 
 		$query = new Query($this->query, $params);
 
@@ -69,8 +55,8 @@ class AsyncPreparedStatement
 	private function prepareStatement(): string
 	{
 		if ($this->statementName === NULL) {
-			$statementName = PreparedStatement::getNextStatementName();
-			$this->query = PreparedStatement::prepareQuery($this->query);
+			$statementName = self::getNextStatementName();
+			$this->query = self::prepareQuery($this->query);
 			$success = @\pg_send_prepare($this->connection->getResource(), $statementName, $this->query); // intentionally @
 			if ($success === FALSE) {
 				throw Exceptions\QueryException::asyncPreparedStatementQueryFailed(

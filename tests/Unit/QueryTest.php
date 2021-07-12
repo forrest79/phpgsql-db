@@ -120,10 +120,35 @@ final class QueryTest extends Tests\TestCase
 
 	public function testPrepareStatementQueryAndParams(): void
 	{
-		$query = Db\PreparedStatement::prepareQuery('SELECT * FROM table WHERE column = ? AND text ILIKE \'What\?\'');
+		$preparedStatementClass = new class extends Db\PreparedStatementHelper
+		{
+
+			public function __construct()
+			{
+			}
+
+
+			public function publicPrepareQuery(string $query): string
+			{
+				return self::prepareQuery($query);
+			}
+
+
+			/**
+			 * @param array<mixed> $params
+			 * @return array<mixed>
+			 */
+			public function publicPrepareParams(array $params): array
+			{
+				return self::prepareParams($params);
+			}
+
+		};
+
+		$query = $preparedStatementClass->publicPrepareQuery('SELECT * FROM table WHERE column = ? AND text ILIKE \'What\?\'');
 		Tester\Assert::same('SELECT * FROM table WHERE column = $1 AND text ILIKE \'What?\'', $query);
 
-		$params = Db\PreparedStatement::prepareParams([NULL, 1, TRUE, FALSE, 'test']);
+		$params = $preparedStatementClass->publicPrepareParams([NULL, 1, TRUE, FALSE, 'test']);
 		Tester\Assert::same([NULL, 1, 'TRUE', 'FALSE', 'test'], $params);
 	}
 

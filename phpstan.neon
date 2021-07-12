@@ -44,6 +44,11 @@ parameters:
 			count: 1
 
 		-
+			message: '#^AnonymousClass.+::__construct\(\) does not call parent constructor from Forrest79\\PhPgSql\\Db\\PreparedStatementHelper\.$#'
+			path: %rootDir%/../../../tests/Unit/QueryTest.php
+			count: 1
+
+		-
 			message: '#^Expression ".+" on a separate line does not do anything\.$#'
 			path: %rootDir%/../../../tests/Integration/FetchTest.php
 			count: 8
