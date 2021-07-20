@@ -330,7 +330,7 @@ class Query implements Sql
 
 
 	/**
-	 * @param array<int, string|array<mixed>|Db\Sql|Complex> $conditions
+	 * @param array<string|array<mixed>|Db\Sql|Complex> $conditions
 	 * @throws Exceptions\QueryException
 	 */
 	public function whereAnd(array $conditions = []): Complex
@@ -343,7 +343,7 @@ class Query implements Sql
 
 
 	/**
-	 * @param array<int, string|array<mixed>|Db\Sql|Complex> $conditions
+	 * @param array<string|array<mixed>|Db\Sql|Complex> $conditions
 	 * @throws Exceptions\QueryException
 	 */
 	public function whereOr(array $conditions = []): Complex
@@ -383,7 +383,7 @@ class Query implements Sql
 
 
 	/**
-	 * @param array<int, string|array<mixed>|Db\Sql|Complex> $conditions
+	 * @param array<string|array<mixed>|Db\Sql|Complex> $conditions
 	 * @throws Exceptions\QueryException
 	 */
 	public function havingAnd(array $conditions = []): Complex
@@ -396,7 +396,7 @@ class Query implements Sql
 
 
 	/**
-	 * @param array<int, string|array<mixed>|Db\Sql|Complex> $conditions
+	 * @param array<string|array<mixed>|Db\Sql|Complex> $conditions
 	 * @throws Exceptions\QueryException
 	 */
 	public function havingOr(array $conditions = []): Complex
@@ -415,14 +415,14 @@ class Query implements Sql
 				$this->params[$param][$alias] = Complex::createAnd();
 			}
 			return $this->params[$param][$alias];
+		} elseif (($param === self::PARAM_WHERE) || ($param === self::PARAM_HAVING)) {
+			if ($this->params[$param] === NULL) {
+				$this->params[$param] = Complex::createAnd();
+			}
+			return $this->params[$param];
 		}
 
-		// self::PARAM_WHERE | self::PARAM_HAVING
-		if ($this->params[$param] === NULL) {
-			$this->params[$param] = Complex::createAnd();
-		}
-		\assert($this->params[$param] instanceof Complex);
-		return $this->params[$param];
+		throw new \InvalidArgumentException('todo');
 	}
 
 
@@ -550,7 +550,7 @@ class Query implements Sql
 
 
 	/**
-	 * @param array<int, array<string, mixed>> $rows
+	 * @param array<array<string, mixed>> $rows
 	 * @return static
 	 * @throws Exceptions\QueryException
 	 */

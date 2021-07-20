@@ -185,7 +185,7 @@ class Connection extends Db\Connection implements Sql
 
 
 	/**
-	 * @param array<int, string|array<mixed>|Db\Sql|Complex> $conditions
+	 * @param array<string|array<mixed>|Db\Sql|Complex> $conditions
 	 * @throws Exceptions\QueryException
 	 */
 	public function whereAnd(array $conditions = []): Complex
@@ -195,7 +195,7 @@ class Connection extends Db\Connection implements Sql
 
 
 	/**
-	 * @param array<int, string|array<mixed>|Db\Sql|Complex> $conditions
+	 * @param array<string|array<mixed>|Db\Sql|Complex> $conditions
 	 * @throws Exceptions\QueryException
 	 */
 	public function whereOr(array $conditions = []): Complex
@@ -228,7 +228,7 @@ class Connection extends Db\Connection implements Sql
 
 
 	/**
-	 * @param array<int, string|array<mixed>|Db\Sql|Complex> $conditions
+	 * @param array<string|array<mixed>|Db\Sql|Complex> $conditions
 	 * @throws Exceptions\QueryException
 	 */
 	public function havingAnd(array $conditions = []): Complex
@@ -238,7 +238,7 @@ class Connection extends Db\Connection implements Sql
 
 
 	/**
-	 * @param array<int, string|array<mixed>|Db\Sql|Complex> $conditions
+	 * @param array<string|array<mixed>|Db\Sql|Complex> $conditions
 	 * @throws Exceptions\QueryException
 	 */
 	public function havingOr(array $conditions = []): Complex
@@ -341,7 +341,7 @@ class Connection extends Db\Connection implements Sql
 
 
 	/**
-	 * @param array<int, array<string, mixed>> $rows
+	 * @param array<array<string, mixed>> $rows
 	 * @return QueryExecute
 	 * @throws Exceptions\QueryException
 	 */
